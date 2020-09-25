@@ -25,11 +25,11 @@ public class Cell {
         return value ? "X" : "·";
     }
 
-    public void revive() {
-        setValue(true);
-    }
-
-    public void kill() {
-        setValue(false);
+    public boolean evaluateNextState(int neighborCardinality) {
+        if (value) {
+            return neighborCardinality == 2 || neighborCardinality == 3;
+        } else {
+            return neighborCardinality == 3;
+        }
     }
 }

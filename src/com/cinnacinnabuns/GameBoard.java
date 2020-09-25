@@ -21,6 +21,7 @@ public class GameBoard {
     }
 
     //  TODO: Implement setting directly to cell, not Boolean
+
     public void setCellAt(int indexH, int indexW, Boolean isAlive) throws InvalidDimensionException {
         validateIndex(indexH, indexW);
         try {
@@ -29,7 +30,6 @@ public class GameBoard {
             e.printStackTrace();
         }
     }
-
     public int getNeighborCardinality(int indexH, int indexW) throws InvalidDimensionException {
 
         validateIndex(indexH, indexW);
@@ -52,19 +52,7 @@ public class GameBoard {
                     int indexH = boardArray.indexOf(boardLine);
                     int indexW = boardLine.indexOf(cell);
                     int nc = getNeighborCardinality(indexH, indexW);
-                    if (cell.getValue()) {
-                        if (nc == 2 || nc == 3) {
-                            getTempBoardArrayElement(indexH, indexW).revive();
-                        } else {
-                            getTempBoardArrayElement(indexH, indexW).kill();
-                        }
-                    } else {
-                        if (nc == 3) {
-                            getTempBoardArrayElement(indexH, indexW).revive();
-                        } else {
-                            getTempBoardArrayElement(indexH, indexW).kill();
-                        }
-                    }
+                    getTempBoardArrayElement(indexH, indexW).setValue(cell.evaluateNextState(nc));
                 } catch (InvalidDimensionException e) {
                     System.out.println("Unexpected indexing exception encountered while updating board!");
                     e.printStackTrace();
@@ -72,12 +60,6 @@ public class GameBoard {
             }
         }
         swapBoards();
-    }
-
-    private void swapBoards() {
-        ArrayList<ArrayList<Cell>> boardArray = this.boardArray;
-        this.boardArray = tempBoardArray;
-        tempBoardArray = boardArray;
     }
 
     @Override
@@ -93,20 +75,6 @@ public class GameBoard {
         return sb.toString();
     }
 
-    private boolean hasIndex(int height, int width) {
-        return height >= 0 && height <= boardArray.size() - 1
-                && width >= 0 && width <= boardArray.get(0).size() - 1;
-    }
-
-    private void validateIndex(int height, int width) throws InvalidDimensionException {
-        if (!hasIndex(height, width))
-            throw new InvalidDimensionException();
-    }
-
-    private Cell getTempBoardArrayElement(int indexH, int indexW) {
-        return tempBoardArray.get(indexH).get(indexW);
-    }
-
     private static void setupBoardArray(ArrayList<ArrayList<Cell>> boardArray, int height, int width) {
 
         assert boardArray != null;
@@ -119,6 +87,26 @@ public class GameBoard {
                 boardLine.add(new Cell());
             }
         }
+    }
+
+    private void swapBoards() {
+        ArrayList<ArrayList<Cell>> boardArray = this.boardArray;
+        this.boardArray = tempBoardArray;
+        tempBoardArray = boardArray;
+    }
+
+    private boolean hasIndex(int height, int width) {
+        return height >= 0 && height <= boardArray.size() - 1
+                && width >= 0 && width <= boardArray.get(0).size() - 1;
+    }
+
+    private void validateIndex(int height, int width) throws InvalidDimensionException {
+        if (!hasIndex(height, width))
+            throw new InvalidDimensionException();
+    }
+
+    private Cell getTempBoardArrayElement(int indexH, int indexW) {
+        return tempBoardArray.get(indexH).get(indexW);
     }
 }
 

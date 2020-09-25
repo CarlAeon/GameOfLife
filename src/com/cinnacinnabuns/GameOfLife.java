@@ -34,18 +34,18 @@ public class GameOfLife {
 
     public static void main(String[] args) {
 
-        GameOfLife gol = new GameOfLife(5, 5);
+        GameOfLife gol = new GameOfLife(9, 9);
         //  TODO: Implement setting from file, or some other modular way!
         try {
-            gol.getBoard().setCellAt(1, 2, true);
-            gol.getBoard().setCellAt(2, 1, true);
-            gol.getBoard().setCellAt(2, 2, true);
-            gol.getBoard().setCellAt(2, 3, true);
+            gol.getBoard().setCellAt(3, 4, true);
+            gol.getBoard().setCellAt(4, 3, true);
+            gol.getBoard().setCellAt(4, 4, true);
+            gol.getBoard().setCellAt(4, 5, true);
         } catch (InvalidDimensionException e) {
             e.printStackTrace();
         }
         System.out.println(gol);
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 12; i++) {
             gol.update();
             System.out.println(gol);
         }
