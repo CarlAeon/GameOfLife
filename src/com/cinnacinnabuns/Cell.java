@@ -25,6 +25,22 @@ public class Cell {
         return value ? "X" : "·";
     }
 
+    public boolean evaluateNextState(int neighborCardinality) {
+        if (value) {
+            if (neighborCardinality == 2 || neighborCardinality == 3) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if (neighborCardinality == 3) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
     public void revive() {
         setValue(true);
     }
