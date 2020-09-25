@@ -5,8 +5,21 @@ public class GameOfLife {
     private GameBoard board;
     private int snapshot;
 
-    public GameOfLife(int height, int width) throws InvalidDimensionException {
+    public GameOfLife(int height, int width) {
         board = new GameBoard(height, width);
+    }
+
+    public GameBoard getBoard() {
+        return board;
+    }
+
+    public void setBoard(GameBoard board) {
+        this.board = board;
+    }
+
+    public void update() {
+        board.updateBoard();
+        snapshot++;
     }
 
     @Override
@@ -17,5 +30,24 @@ public class GameOfLife {
                 .append("\n\n")
                 .append(board)
                 .toString();
+    }
+
+    public static void main(String[] args) {
+
+        GameOfLife gol = new GameOfLife(5, 5);
+        //  TODO: Implement setting from file, or some other modular way!
+        try {
+            gol.getBoard().setCellAt(1, 2, true);
+            gol.getBoard().setCellAt(2, 1, true);
+            gol.getBoard().setCellAt(2, 2, true);
+            gol.getBoard().setCellAt(2, 3, true);
+        } catch (InvalidDimensionException e) {
+            e.printStackTrace();
+        }
+        System.out.println(gol);
+        for (int i = 0; i < 10; i++) {
+            gol.update();
+            System.out.println(gol);
+        }
     }
 }

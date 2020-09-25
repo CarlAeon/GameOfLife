@@ -24,4 +24,12 @@ public class Cell {
     public String toString() {
         return value ? "X" : "·";
     }
+
+    public void revive() {
+        setValue(true);
+    }
+
+    public void kill() {
+        setValue(false);
+    }
 }
